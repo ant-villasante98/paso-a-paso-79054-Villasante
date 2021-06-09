@@ -1,5 +1,5 @@
 {
-  // "editor.theme": "vs-dark",
+  "editor.theme": "vs-dark",
   /**
    * Render vertical lines at the specified columns.
    * Defaults to empty array.
