@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloFamilia } from '../models/ArticuloFamilia';
-import { ArticuloFamilia } from '../models/ArticuloFamilia';
-import { ArticuloFamilia } from '../models/ArticuloFamilia';
 import { SArticuloFamiliaService } from '../s-articulo-familia.service';
 
 @Component({
