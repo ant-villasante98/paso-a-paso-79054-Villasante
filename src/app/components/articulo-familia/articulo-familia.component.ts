@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
-import { SArticuloFamiliaService } from '../../services/s-articulo-familia.service';
+import { ArticuloFamiliaService } from '../../services/s-articulo-familia.service';
 
 @Component({
   selector: 'app-articulo-familia',
@@ -11,7 +11,7 @@ export class ArticuloFamiliaComponent implements OnInit {
   titulo: string = 'Articulos Familia';
   Items: ArticuloFamilia[] = [];
 
-  constructor(private AFService: SArticuloFamiliaService) {}
+  constructor(private AFService: ArticuloFamiliaService) {}
 
   ngOnInit() {
     this.GetArticulosFamilia();

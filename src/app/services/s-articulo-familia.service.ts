@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 @Injectable()
-export class SArticuloFamiliaService {
+export class ArticuloFamiliaService {
   resourceURL: string;
 
   constructor(private httpclient: HttpClient) {

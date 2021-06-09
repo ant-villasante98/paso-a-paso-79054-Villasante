@@ -7,7 +7,7 @@ import { HelloComponent } from './hello.component';
 import { ArticuloFamiliaComponent } from './components/articulo-familia/articulo-familia.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { SArticuloFamiliaService } from './services/s-articulo-familia.service';
+import { ArticuloFamiliaService } from './services/s-articulo-familia.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRouterModule } from './app-router/app-router.module';
 
@@ -21,6 +21,6 @@ import { AppRouterModule } from './app-router/app-router.module';
     MenuComponent
   ],
   bootstrap: [AppComponent],
-  providers: [SArticuloFamiliaService]
+  providers: [ArticuloFamiliaService]
 })
 export class AppModule {}
