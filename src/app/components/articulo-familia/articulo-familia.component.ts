@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticuloFamilia } from '../models/ArticuloFamilia';
-import { SArticuloFamiliaService } from '../s-articulo-familia.service';
+import { ArticuloFamilia } from '../../models/ArticuloFamilia';
+import { SArticuloFamiliaService } from '../../services/s-articulo-familia.service';
 
 @Component({
   selector: 'app-articulo-familia',
