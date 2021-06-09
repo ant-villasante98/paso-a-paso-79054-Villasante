@@ -9,9 +9,10 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SArticuloFamiliaService } from './services/s-articulo-familia.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRouterModule } from './app-router/app-router.module';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, HttpClientModule, AppRouterModule],
   declarations: [
     AppComponent,
     HelloComponent,

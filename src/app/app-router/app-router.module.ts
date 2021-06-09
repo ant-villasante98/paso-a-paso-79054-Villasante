@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Routes,RouterModule } from '@angular/router';
+import { InicioComponent } from '../components/inicio/inicio.component';
 
+const routes:Routes=[
+  {path:'', component: InicioComponent}
+];
 @NgModule({
   imports: [
-    CommonModule
+    RouterModule.forRoot(routes)
   ],
-  declarations: []
+  exports:[RouterModule]
+  
 })
 export class AppRouterModule { }
