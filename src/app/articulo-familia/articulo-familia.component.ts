@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloFamilia } from '../models/ArticuloFamilia';
+import { ArticuloFamilia } from '../models/ArticuloFamilia';
+import { ArticuloFamilia } from '../models/ArticuloFamilia';
+import { SArticuloFamiliaService } from '../s-articulo-familia.service';
 
 @Component({
   selector: 'app-articulo-familia',
@@ -7,9 +10,16 @@ import { ArticuloFamilia } from '../models/ArticuloFamilia';
   styleUrls: ['./articulo-familia.component.css']
 })
 export class ArticuloFamiliaComponent implements OnInit {
-  titulo:string ='Articulos Familia';
-  Items:ArticuloFamilia;
-  constructor() {}
+  titulo: string = 'Articulos Familia';
+  Items: ArticuloFamilia[] = [];
+
+  constructor(private AFService: SArticuloFamiliaService) {}
 
   ngOnInit() {}
+
+  GetArticulosFamilia() {
+    this.AFService.get().subscribe((res: ArticuloFamilia[]) => {
+      this.Items = res;
+    });
+  }
 }
