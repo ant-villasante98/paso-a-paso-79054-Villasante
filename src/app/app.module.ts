@@ -8,9 +8,10 @@ import { ArticuloFamiliaComponent } from './articulo-familia/articulo-familia.co
 import { InicioComponent } from './inicio/inicio.component';
 import { MenuComponent } from './menu/menu.component';
 import { SArticuloFamiliaService } from './s-articulo-familia.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, HttpClientModule],
   declarations: [
     AppComponent,
     HelloComponent,
