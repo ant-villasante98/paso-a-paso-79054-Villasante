@@ -13,7 +13,9 @@ export class ArticuloFamiliaComponent implements OnInit {
 
   constructor(private AFService: SArticuloFamiliaService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.GetArticulosFamilia();
+  }
 
   GetArticulosFamilia() {
     this.AFService.get().subscribe((res: ArticuloFamilia[]) => {

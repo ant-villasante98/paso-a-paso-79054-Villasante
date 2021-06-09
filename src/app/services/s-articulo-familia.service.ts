@@ -5,7 +5,7 @@ export class SArticuloFamiliaService {
   resourceURL: string;
 
   constructor(private httpclient: HttpClient) {
-    this.resourceURL = 'https://localhost:44320/api/ArticulosFamilias';
+    this.resourceURL = 'https://localhost:44320/api/articulosfamilias';
   }
   get() {
     return this.httpclient.get(this.resourceURL);
