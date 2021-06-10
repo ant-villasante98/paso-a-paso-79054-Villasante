@@ -1,3 +1,4 @@
+import { Attribute } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
@@ -28,6 +29,9 @@ export class ArticuloComponent implements OnInit {
   Familias: ArticuloFamilia[] = null;
   Pagina = 1; // inicia pagina 1
 
+  // Item de Consultar
+  ItemComsulta: Articulo;
+
   // opciones del combo activo
   OpcionesActivo = [
     { Id: null, Nombre: '' },
@@ -36,74 +40,77 @@ export class ArticuloComponent implements OnInit {
   ];
 
   constructor(
-       private articulosService: MockArticuloService,
-    private articulosFamiliasService: ArticuloFamiliaService,
+    private articulosService: MockArticuloService,
+    private articulosFamiliasService: ArticuloFamiliaService
   ) {}
 
   ngOnInit() {
     this.GetFamiliasArticulos();
   }
   GetFamiliasArticulos() {
-         this.articulosFamiliasService.get().subscribe((res: ArticuloFamilia[]) => {
-       this.Familias = res;
-     });
+    this.articulosFamiliasService.get().subscribe((res: ArticuloFamilia[]) => {
+      this.Familias = res;
+    });
+  }
+  GetById(id: number) {
+    this.articulosService.getById(id).subscribe((res: Articulo) => {
+      this.ItemComsulta = res;
+    });
   }
 
   Agregar() {
-    this.AccionABMC = "A";
+    this.AccionABMC = 'A';
   }
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
-     this.articulosService
-      .get('', null, this.Pagina)
-      .subscribe((res: any) => {
-        this.Items = res.Items;
-        this.RegistrosTotal = res.RegistrosTotal;
-      });
+    this.articulosService.get('', null, this.Pagina).subscribe((res: any) => {
+      this.Items = res.Items;
+      this.RegistrosTotal = res.RegistrosTotal;
+    });
   }
 
   // Obtengo un registro especifico según el Id
   BuscarPorId(Dto, AccionABMC) {
     window.scroll(0, 0); // ir al incio del scroll
     this.AccionABMC = AccionABMC;
+    this.GetById(Dto.IdArticulo);
   }
 
   Consultar(Dto) {
-    this.BuscarPorId(Dto, "C");
+    this.BuscarPorId(Dto, 'C');
   }
 
   // comienza la modificacion, luego la confirma con el metodo Grabar
   Modificar(Dto) {
     if (!Dto.Activo) {
-      alert("No puede modificarse un registro Inactivo.");
+      alert('No puede modificarse un registro Inactivo.');
       return;
     }
-    this.BuscarPorId(Dto, "M");
+    this.BuscarPorId(Dto, 'M');
   }
 
   // grabar tanto altas como modificaciones
   Grabar() {
-    alert("Registro Grabado!");
+    alert('Registro Grabado!');
     this.Volver();
   }
 
   ActivarDesactivar(Dto) {
     var resp = confirm(
-      "Esta seguro de " +
-        (Dto.Activo ? "desactivar" : "activar") +
-        " este registro?");
-    if (resp === true)
-      alert("registro activado/desactivado!");
+      'Esta seguro de ' +
+        (Dto.Activo ? 'desactivar' : 'activar') +
+        ' este registro?'
+    );
+    if (resp === true) alert('registro activado/desactivado!');
   }
 
   // Volver desde Agregar/Modificar
   Volver() {
-    this.AccionABMC = "L";
+    this.AccionABMC = 'L';
   }
 
   ImprimirListado() {
     alert('Sin desarrollar...');
   }
-
 }
