@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRouterModule } from './app-router/app-router.module';
 import { NotFountComponent } from './components/not-fount/not-fount.component';
 import { ArticuloComponent } from './components/articulo/articulo.component';
+import { MockArticuloService } from './services/mock-articulo.service';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRouterModule],
@@ -25,6 +26,6 @@ import { ArticuloComponent } from './components/articulo/articulo.component';
     ArticuloComponent
   ],
   bootstrap: [AppComponent],
-  providers: [ArticuloFamiliaService]
+  providers: [ArticuloFamiliaService, MockArticuloService]
 })
 export class AppModule {}
