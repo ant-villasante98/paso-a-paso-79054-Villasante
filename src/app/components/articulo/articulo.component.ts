@@ -1,7 +1,9 @@
 import { Attribute } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
+import { ArticulosService } from '../../services/articulos.service';
 import { MockArticuloService } from '../../services/mock-articulo.service';
 import { ArticuloFamiliaService } from '../../services/s-articulo-familia.service';
 
@@ -11,6 +13,7 @@ import { ArticuloFamiliaService } from '../../services/s-articulo-familia.servic
   styleUrls: ['./articulo.component.css']
 })
 export class ArticuloComponent implements OnInit {
+  formBusqueda: FormGroup;
   Titulo = 'Articulos';
   TituloAccionABMC = {
     A: '(Agregar)',
@@ -41,19 +44,29 @@ export class ArticuloComponent implements OnInit {
 
   constructor(
     private articulosService: MockArticuloService,
-    private articulosFamiliasService: ArticuloFamiliaService
+    private articulosFamiliasService: ArticuloFamiliaService,
+    private articulosS:ArticulosService,
+    private form:FormBuilder = new FormBuilder()
   ) {}
 
   ngOnInit() {
+    this.formBusqueda = this.form.group({
+      Nombre:['']
+    })
+
     this.GetFamiliasArticulos();
   }
+
+
+
+
   GetFamiliasArticulos() {
     this.articulosFamiliasService.get().subscribe((res: ArticuloFamilia[]) => {
       this.Familias = res;
     });
   }
   GetById(id: number) {
-    this.articulosService.getById(id).subscribe((res: Articulo) => {
+    this.articulosS.getById(id).subscribe((res: Articulo) => {
       this.ItemComsulta = res;
     });
   }
@@ -64,7 +77,7 @@ export class ArticuloComponent implements OnInit {
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
-    this.articulosService.get('', null, this.Pagina).subscribe((res: any) => {
+    this.articulosS.get('', null, this.Pagina).subscribe((res: any) => {
       this.Items = res.Items;
       this.RegistrosTotal = res.RegistrosTotal;
     });

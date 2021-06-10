@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HelloComponent } from './hello.component';
@@ -13,6 +13,7 @@ import { AppRouterModule } from './app-router/app-router.module';
 import { NotFountComponent } from './components/not-fount/not-fount.component';
 import { ArticuloComponent } from './components/articulo/articulo.component';
 import { MockArticuloService } from './services/mock-articulo.service';
+import { ArticulosService } from './services/articulos.service';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRouterModule],
@@ -26,6 +27,6 @@ import { MockArticuloService } from './services/mock-articulo.service';
     ArticuloComponent
   ],
   bootstrap: [AppComponent],
-  providers: [ArticuloFamiliaService, MockArticuloService]
+  providers: [ArticuloFamiliaService, MockArticuloService, ArticulosService, ReactiveFormsModule,FormsModule]
 })
 export class AppModule {}
