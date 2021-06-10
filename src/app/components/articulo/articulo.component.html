@@ -25,7 +25,7 @@
             <i class="fas fa-search"> </i> Buscar
         </button>
     &nbsp;
-    <button type="button" class="btn btn-primary" (click)="Agregar()">
+    <button type="button" class="btn btn-primary" (click)="Agregar()" >
             <i class="fas fa-plus"> </i> 
             Agregar
         </button>
@@ -62,7 +62,7 @@
                     </button>
           <button type="button" class="btn btn-sm btn-outline-{{ item.Activo ? 'danger':'success'}}"
                             title="{{item.Activo ? 'Desactivar':'Activar'}}" (click)="ActivarDesactivar(item)">
-                        <i class="fas fa-{{item.Activo ? 'times':'check'}}"></i>
+                        <i class="fas fa-{{item.Activo ? 'times':'check'}}" (click)="item.Activo= item.Activo? false:true;"></i>
                     </button>
         </td>
       </tr>
@@ -180,17 +180,17 @@
 
   <!-- Botones Grabar, Cancelar/Volver' -->
   <div class="row justify-content-center">
-    <button type="button" class="btn btn-primary" (click)="Grabar()">
+    <button type="button" class="btn btn-primary" (click)="Grabar()" *ngIf="(AccionABMC=='A' || AccionABMC=='M') ">
             <i class="fas fa-check"></i> Grabar
         </button>
     &nbsp;
     <button type="button" class="btn btn-warning" (click)="Volver()">
-            <i class="fas fa-undo"></i> Volver/Cancelar
+            <i class="fas fa-undo"></i> {{AccionABMC == 'A'  || AccionABMC == 'M' ? 'Cancelar' : 'Volver'}}
         </button>
   </div>
 
   <!--texto: Revisar los datos ingresados...-->
-  <div id="divMsjFormRegistro" class="row alert alert-danger">
+  <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="false">
     <i class="fas fa-exclamation-sign"></i>{{Mensajes['RD']}}
   </div>
 
