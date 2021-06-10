@@ -1,0 +1,31 @@
+<form name="FormBusqueda" class="bg-light">
+  <div class="form-group row">
+    <label class="col-form-label col-sm-2 offset-sm-1">
+            Nombre:
+        </label>
+    <div class="col-sm-3">
+      <input type="text" name="Nombre" class="form-control" />
+    </div>
+    <label class="col-form-label col-sm-2  offset-sm-1">
+            Activo:
+        </label>
+    <div class="col-sm-3">
+      <select class="form-control" name="Activo" >
+            <option *ngFor="let opt of OpcionesActivo">
+                        {{ opt.Nombre }}
+            </option>            
+          </select>
+    </div>
+  </div>
+  <!-- Botones -->
+  <div class="row justify-content-center">
+    <button type="button" class="btn btn-primary" (click)="Pagina=1;Buscar();">
+            <i class="fas fa-search"> </i> Buscar
+        </button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="Agregar()">
+            <i class="fas fa-plus"> </i> 
+            Agregar
+        </button>
+  </div>
+</form>

@@ -10,6 +10,8 @@ import { MenuComponent } from './components/menu/menu.component';
 import { ArticuloFamiliaService } from './services/s-articulo-familia.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRouterModule } from './app-router/app-router.module';
+import { NotFountComponent } from './components/not-fount/not-fount.component';
+import { ArticuloComponent } from './components/articulo/articulo.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRouterModule],
@@ -18,7 +20,9 @@ import { AppRouterModule } from './app-router/app-router.module';
     HelloComponent,
     InicioComponent,
     ArticuloFamiliaComponent,
-    MenuComponent
+    MenuComponent,
+    NotFountComponent,
+    ArticuloComponent
   ],
   bootstrap: [AppComponent],
   providers: [ArticuloFamiliaService]
