@@ -45,20 +45,17 @@ export class ArticuloComponent implements OnInit {
   constructor(
     private articulosService: MockArticuloService,
     private articulosFamiliasService: ArticuloFamiliaService,
-    private articulosS:ArticulosService,
-    private form:FormBuilder = new FormBuilder()
+    private articulosS: ArticulosService,
+    private form: FormBuilder
   ) {}
 
   ngOnInit() {
     this.formBusqueda = this.form.group({
-      Nombre:['']
-    })
+      Nombre: ['']
+    });
 
     this.GetFamiliasArticulos();
   }
-
-
-
 
   GetFamiliasArticulos() {
     this.articulosFamiliasService.get().subscribe((res: ArticuloFamilia[]) => {

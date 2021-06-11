@@ -16,7 +16,14 @@ import { MockArticuloService } from './services/mock-articulo.service';
 import { ArticulosService } from './services/articulos.service';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpClientModule, AppRouterModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    AppRouterModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
   declarations: [
     AppComponent,
     HelloComponent,
@@ -27,6 +34,6 @@ import { ArticulosService } from './services/articulos.service';
     ArticuloComponent
   ],
   bootstrap: [AppComponent],
-  providers: [ArticuloFamiliaService, MockArticuloService, ArticulosService, ReactiveFormsModule,FormsModule]
+  providers: [ArticuloFamiliaService, MockArticuloService, ArticulosService]
 })
 export class AppModule {}

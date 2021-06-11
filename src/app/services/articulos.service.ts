@@ -23,6 +23,7 @@ export class ArticulosService {
     param = param.append('id',id.toString());
     return this.httpClient.get(this.resourceURL
     // +'/'+id.toString()
-    ,{params:param})
+    ,{params:param}
+    )
   }
 }
