@@ -51,7 +51,8 @@ export class ArticuloComponent implements OnInit {
 
   ngOnInit() {
     this.formBusqueda = this.form.group({
-      Nombre: ['']
+      Nombre: [null],
+      Activo: [null]
     });
 
     this.GetFamiliasArticulos();
@@ -74,7 +75,7 @@ export class ArticuloComponent implements OnInit {
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
-    this.articulosS.get('', null, this.Pagina).subscribe((res: any) => {
+    this.articulosS.get(this.formBusqueda.controls.Nombre.value, null, this.Pagina).subscribe((res: any) => {
       this.Items = res.Items;
       this.RegistrosTotal = res.RegistrosTotal;
     });
