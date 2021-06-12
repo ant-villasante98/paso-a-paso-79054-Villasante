@@ -14,6 +14,7 @@ import { ArticuloFamiliaService } from '../../services/s-articulo-familia.servic
 })
 export class ArticuloComponent implements OnInit {
   formBusqueda: FormGroup;
+  FormRegistro: FormGroup;
   Titulo = 'Articulos';
   TituloAccionABMC = {
     A: '(Agregar)',
@@ -51,9 +52,18 @@ export class ArticuloComponent implements OnInit {
 
   ngOnInit() {
     this.formBusqueda = this.form.group({
-      Nombre: [null],
+      Nombre: [''],
       Activo: [null]
     });
+     this.FormRegistro = this.form.group({
+      IdArticulo: [null],
+      Nombre: [this.ItemComsulta?.Nombre],
+      Precio: [null],
+      Stock: [null],
+      CodigoDeBarra: [null],
+      IdArticuloFamilia: [2],
+      FechaAlta: [null],
+      Activo: [false]})
 
     this.GetFamiliasArticulos();
   }
@@ -63,29 +73,46 @@ export class ArticuloComponent implements OnInit {
       this.Familias = res;
     });
   }
-  GetById(id: number) {
-    this.articulosS.getById(id).subscribe((res: Articulo) => {
-      this.ItemComsulta = res;
-    });
-  }
+  // GetById(id: number) {
+  //   this.articulosS.getById(id).subscribe((res: Articulo) => {
+  //     // this.ItemComsulta = res
+  //   });
+  // }
 
   Agregar() {
     this.AccionABMC = 'A';
+    this.FormRegistro.reset({ Activo: true, IdArticulo: 0 });
   }
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
-    this.articulosS.get(this.formBusqueda.controls.Nombre.value, null, this.Pagina).subscribe((res: any) => {
-      this.Items = res.Items;
-      this.RegistrosTotal = res.RegistrosTotal;
-    });
+    this.articulosS
+      .get(this.formBusqueda.controls.Nombre.value, this.formBusqueda.controls.Activo.value, this.Pagina)
+      .subscribe((res: any) => {
+        this.Items = res.Items;
+        this.RegistrosTotal = res.RegistrosTotal;
+        
+      });
+   
+
   }
 
   // Obtengo un registro especifico según el Id
   BuscarPorId(Dto, AccionABMC) {
     window.scroll(0, 0); // ir al incio del scroll
-    this.AccionABMC = AccionABMC;
-    this.GetById(Dto.IdArticulo);
+    
+    // this.GetById(Dto.IdArticulo);
+    this.articulosS.getById(Dto.IdArticulo).subscribe((res: Articulo) => {
+      // this.ItemComsulta = res
+      let itemCopy ={...res}
+
+       var arrFecha = itemCopy.FechaAlta.substr(0, 10).split("-");
+      itemCopy.FechaAlta = arrFecha[2] + "/" + arrFecha[1] + "/" + arrFecha[0];
+
+      this.FormRegistro.patchValue(itemCopy);
+
+      this.AccionABMC = AccionABMC;
+    });
   }
 
   Consultar(Dto) {
@@ -105,6 +132,7 @@ export class ArticuloComponent implements OnInit {
   Grabar() {
     alert('Registro Grabado!');
     this.Volver();
+    this.limpiarRegistro();
   }
 
   ActivarDesactivar(Dto) {
@@ -119,9 +147,26 @@ export class ArticuloComponent implements OnInit {
   // Volver desde Agregar/Modificar
   Volver() {
     this.AccionABMC = 'L';
+    this.limpiarRegistro();
+    this.ItemComsulta = null;
   }
 
   ImprimirListado() {
     alert('Sin desarrollar...');
   }
+
+  limpiarRegistro(){
+    this.FormRegistro.reset({
+      IdArticulo: null,
+      Nombre: null,
+      Precio: null,
+      Stock: null,
+      CodigoDeBarra: null,
+      IdArticuloFamilia: null,
+      FechaAlta: null,
+      Activo:null
+      }
+    )
+  }
+  
 }
