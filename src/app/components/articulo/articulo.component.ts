@@ -101,9 +101,9 @@ export class ArticuloComponent implements OnInit {
   BuscarPorId(Dto, AccionABMC) {
     window.scroll(0, 0); // ir al incio del scroll
     
-    // this.GetById(Dto.IdArticulo);
+
     this.articulosS.getById(Dto.IdArticulo).subscribe((res: Articulo) => {
-      // this.ItemComsulta = res
+
       let itemCopy ={...res}
 
        var arrFecha = itemCopy.FechaAlta.substr(0, 10).split("-");
@@ -130,9 +130,13 @@ export class ArticuloComponent implements OnInit {
 
   // grabar tanto altas como modificaciones
   Grabar() {
-    alert('Registro Grabado!');
-    this.Volver();
+    // let articulo: Articulo = this.FormRegistro.value
+    this.articulosS.put(this.FormRegistro.value).subscribe((res:Articulo)=>{
+      alert('Registro Grabado!');
+    })
     this.limpiarRegistro();
+    this.Volver();
+
   }
 
   ActivarDesactivar(Dto) {
@@ -168,5 +172,6 @@ export class ArticuloComponent implements OnInit {
       }
     )
   }
+
   
 }
