@@ -1,4 +1,8 @@
 <h3>{{Titulo}} <small>{{TituloAccionABMC[AccionABMC]}}</small></h3>
+
+
+
+
 <!-- Formulario Filtro de búsqueda, se ve cuando la AccionABMC es "L"(busqueda/listado)-->
 <form [formGroup]='formBusqueda' name="FormBusqueda" class="bg-light" *ngIf="AccionABMC == 'L'">
   <div class="form-group row">
@@ -187,6 +191,7 @@
             <i class="fas fa-undo"></i> {{AccionABMC == 'A'  || AccionABMC == 'M' ? 'Cancelar' : 'Volver'}}
         </button>
   </div>
+
 
   <!--texto: Revisar los datos ingresados...-->
   <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="false">

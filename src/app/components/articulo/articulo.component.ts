@@ -133,6 +133,7 @@ export class ArticuloComponent implements OnInit {
     // let articulo: Articulo = this.FormRegistro.value
     this.articulosS.put(this.FormRegistro.value).subscribe((res:Articulo)=>{
       alert('Registro Grabado!');
+      this.Buscar();
     })
     this.limpiarRegistro();
     this.Volver();
