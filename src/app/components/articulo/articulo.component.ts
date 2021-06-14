@@ -13,6 +13,9 @@ import { ArticuloFamiliaService } from '../../services/s-articulo-familia.servic
   styleUrls: ['./articulo.component.css']
 })
 export class ArticuloComponent implements OnInit {
+  // variable del spinner
+  carga: boolean = false;
+
   formBusqueda: FormGroup;
   FormRegistro: FormGroup;
   Titulo = 'Articulos';
@@ -44,7 +47,7 @@ export class ArticuloComponent implements OnInit {
   ];
 
   constructor(
-    private articulosService: MockArticuloService,
+    // private articulosService: MockArticuloService,
     private articulosFamiliasService: ArticuloFamiliaService,
     private articulosS: ArticulosService,
     private form: FormBuilder
@@ -55,15 +58,16 @@ export class ArticuloComponent implements OnInit {
       Nombre: [''],
       Activo: [null]
     });
-     this.FormRegistro = this.form.group({
+    this.FormRegistro = this.form.group({
       IdArticulo: [null],
-      Nombre: [this.ItemComsulta?.Nombre],
+      Nombre: [null],
       Precio: [null],
       Stock: [null],
       CodigoDeBarra: [null],
-      IdArticuloFamilia: [2],
+      IdArticuloFamilia: [null],
       FechaAlta: [null],
-      Activo: [false]})
+      Activo: [false]
+    });
 
     this.GetFamiliasArticulos();
   }
@@ -86,36 +90,39 @@ export class ArticuloComponent implements OnInit {
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
+    this.carga = true;
     this.articulosS
-      .get(this.formBusqueda.controls.Nombre.value, this.formBusqueda.controls.Activo.value, this.Pagina)
+      .get(
+        this.formBusqueda.controls.Nombre.value,
+        this.formBusqueda.controls.Activo.value,
+        this.Pagina
+      )
       .subscribe((res: any) => {
         this.Items = res.Items;
         this.RegistrosTotal = res.RegistrosTotal;
-        
+        this.carga =false;
       });
-   
-
   }
 
   // Obtengo un registro especifico según el Id
   BuscarPorId(Dto, AccionABMC) {
     window.scroll(0, 0); // ir al incio del scroll
-    
 
     this.articulosS.getById(Dto.IdArticulo).subscribe((res: Articulo) => {
+      let itemCopy = { ...res };
 
-      let itemCopy ={...res}
-
-       var arrFecha = itemCopy.FechaAlta.substr(0, 10).split("-");
-      itemCopy.FechaAlta = arrFecha[2] + "/" + arrFecha[1] + "/" + arrFecha[0];
+      var arrFecha = itemCopy.FechaAlta.substr(0, 10).split('-');
+      itemCopy.FechaAlta = arrFecha[2] + '/' + arrFecha[1] + '/' + arrFecha[0];
 
       this.FormRegistro.patchValue(itemCopy);
 
       this.AccionABMC = AccionABMC;
+      this.carga = false;
     });
   }
 
   Consultar(Dto) {
+    this.carga = true;
     this.BuscarPorId(Dto, 'C');
   }
 
@@ -130,14 +137,54 @@ export class ArticuloComponent implements OnInit {
 
   // grabar tanto altas como modificaciones
   Grabar() {
-    // let articulo: Articulo = this.FormRegistro.value
-    this.articulosS.put(this.FormRegistro.value).subscribe((res:Articulo)=>{
-      alert('Registro Grabado!');
-      this.Buscar();
-    })
-    this.limpiarRegistro();
-    this.Volver();
+    //hacemos una copia de los datos del formulario, para modificar la fecha y luego enviarlo al servidor
+    const itemCopy = { ...this.FormRegistro.value };
 
+    //convertir fecha de string dd/MM/yyyy a ISO para que la entienda webapi
+    let arrFecha = itemCopy.FechaAlta.substr(0, 10).split('/');
+    if (arrFecha.length == 3)
+      itemCopy.FechaAlta = new Date(
+        arrFecha[2],
+        arrFecha[1] - 1,
+        arrFecha[0]
+      ).toISOString();
+
+    if (this.AccionABMC === 'M') {
+      // let articulo: Articulo = this.FormRegistro.value
+      this.articulosS.put(itemCopy).subscribe(
+        (res: Articulo) => {
+          this.Buscar();
+        },
+        (er: any) => {
+          alert('erro de datos');
+          this.carga = false;
+          this.Volver();
+        },
+        () => {
+          alert('La consulta termino de procesarce');
+          this.carga = false;
+          this.Volver();
+        }
+      );
+    }
+    else{
+      itemCopy.IdArticulo = 0;
+      this.articulosS.post(itemCopy).subscribe(
+        (res: Articulo) => {
+          this.Buscar();
+        },
+        (er: any) => {
+          alert('erro de datos');
+          this.carga = false;
+          this.Volver();
+        },
+        () => {
+          alert('La consulta termino de procesarce');
+          this.carga = false;
+          this.Volver();
+        }
+      ) 
+    }
   }
 
   ActivarDesactivar(Dto) {
@@ -153,14 +200,13 @@ export class ArticuloComponent implements OnInit {
   Volver() {
     this.AccionABMC = 'L';
     this.limpiarRegistro();
-    this.ItemComsulta = null;
   }
 
   ImprimirListado() {
     alert('Sin desarrollar...');
   }
 
-  limpiarRegistro(){
+  limpiarRegistro() {
     this.FormRegistro.reset({
       IdArticulo: null,
       Nombre: null,
@@ -169,10 +215,7 @@ export class ArticuloComponent implements OnInit {
       CodigoDeBarra: null,
       IdArticuloFamilia: null,
       FechaAlta: null,
-      Activo:null
-      }
-    )
+      Activo: null
+    });
   }
-
-  
 }

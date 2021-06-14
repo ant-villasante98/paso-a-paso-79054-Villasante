@@ -30,4 +30,7 @@ export class ArticulosService {
       art
     );
   }
+  post(articulo:Articulo){
+    return this.httpClient.post(this.resourceURL,articulo);
+  }
 }
