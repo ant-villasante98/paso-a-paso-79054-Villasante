@@ -100,7 +100,7 @@ export class ArticuloComponent implements OnInit {
       .subscribe((res: any) => {
         this.Items = res.Items;
         this.RegistrosTotal = res.RegistrosTotal;
-        this.carga =false;
+        this.carga = false;
       });
   }
 
@@ -132,11 +132,13 @@ export class ArticuloComponent implements OnInit {
       alert('No puede modificarse un registro Inactivo.');
       return;
     }
+    this.carga = true;
     this.BuscarPorId(Dto, 'M');
   }
 
   // grabar tanto altas como modificaciones
   Grabar() {
+    this.carga = true;
     //hacemos una copia de los datos del formulario, para modificar la fecha y luego enviarlo al servidor
     const itemCopy = { ...this.FormRegistro.value };
 
@@ -161,13 +163,12 @@ export class ArticuloComponent implements OnInit {
           this.Volver();
         },
         () => {
-          alert('La consulta termino de procesarce');
+          alert('Articulo Modificado');
           this.carga = false;
           this.Volver();
         }
       );
-    }
-    else{
+    } else {
       itemCopy.IdArticulo = 0;
       this.articulosS.post(itemCopy).subscribe(
         (res: Articulo) => {
@@ -179,11 +180,11 @@ export class ArticuloComponent implements OnInit {
           this.Volver();
         },
         () => {
-          alert('La consulta termino de procesarce');
+          alert('Articulo Guardado');
           this.carga = false;
           this.Volver();
         }
-      ) 
+      );
     }
   }
 
