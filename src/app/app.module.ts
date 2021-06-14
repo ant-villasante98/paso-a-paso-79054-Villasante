@@ -14,7 +14,7 @@ import { NotFountComponent } from './components/not-fount/not-fount.component';
 import { ArticuloComponent } from './components/articulo/articulo.component';
 import { MockArticuloService } from './services/mock-articulo.service';
 import { ArticulosService } from './services/articulos.service';
-import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap'
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     BrowserModule,
