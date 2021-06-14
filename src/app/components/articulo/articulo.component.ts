@@ -1,6 +1,6 @@
 import { Attribute } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup,Validator, Validators } from '@angular/forms';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
 import { ArticulosService } from '../../services/articulos.service';
@@ -59,11 +59,11 @@ export class ArticuloComponent implements OnInit {
       Activo: [null]
     });
     this.FormRegistro = this.form.group({
-      IdArticulo: [null],
-      Nombre: [null],
+      IdArticulo: [null,[Validators.required]],
+      Nombre: [null,[Validators.required]],
       Precio: [null],
       Stock: [null],
-      CodigoDeBarra: [null],
+      CodigoDeBarra: [null,[Validators.required]],
       IdArticuloFamilia: [null],
       FechaAlta: [null],
       Activo: [false]
@@ -99,7 +99,7 @@ export class ArticuloComponent implements OnInit {
       )
       .subscribe((res: any) => {
         this.Items = res.Items;
-        this.RegistrosTotal = res.RegistrosTotal;
+        this.RegistrosTotal = res.CantidadDeRgistros;
         this.carga = false;
       });
   }
