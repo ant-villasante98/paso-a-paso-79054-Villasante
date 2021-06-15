@@ -121,7 +121,9 @@
                 Nombre <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input type="text" class="form-control text-uppercase" formControlName="Nombre" >
+        <input type="text" class="form-control text-uppercase" formControlName="Nombre" [ngClass]="{'is-invalid': (FormRegistro.controls.Nombre.touched || submited)  
+            && FormRegistro.controls.Nombre.errors}" 
+>
 
         <span class="text-danger" *ngIf="(FormRegistro.controls.Nombre.touched || submited)&& FormRegistro.controls.Nombre.errors?.required">Complete el campo</span>
         <span class="text-danger" *ngIf="
