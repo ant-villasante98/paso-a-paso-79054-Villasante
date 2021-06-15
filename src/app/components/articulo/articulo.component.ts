@@ -1,6 +1,6 @@
 import { Attribute } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,Validator, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
 import { ArticulosService } from '../../services/articulos.service';
@@ -15,6 +15,9 @@ import { ArticuloFamiliaService } from '../../services/s-articulo-familia.servic
 export class ArticuloComponent implements OnInit {
   // variable del spinner
   carga: boolean = false;
+
+  //badera para indicar el click en boton grabar
+  submited: boolean = false;
 
   formBusqueda: FormGroup;
   FormRegistro: FormGroup;
@@ -59,13 +62,30 @@ export class ArticuloComponent implements OnInit {
       Activo: [null]
     });
     this.FormRegistro = this.form.group({
-      IdArticulo: [null,[Validators.required]],
-      Nombre: [null,[Validators.required]],
-      Precio: [null],
-      Stock: [null],
-      CodigoDeBarra: [null,[Validators.required]],
-      IdArticuloFamilia: [null],
-      FechaAlta: [null],
+      IdArticulo: [null],
+      Nombre: [
+        '',
+        [Validators.required, Validators.minLength(4), Validators.maxLength(55)]
+      ],
+      Precio: [null, [Validators.required, Validators.pattern('[0-9]{1,5}([-.]{0,1})([0-9]{0,2})')]],
+
+      Stock: [null, [Validators.required, Validators.pattern('[0-9]{1,10}')]],
+
+      CodigoDeBarra: [
+        null,
+        [Validators.required, Validators.pattern('[0-9]{13}')]
+      ],
+
+      IdArticuloFamilia: [null, [Validators.required]],
+      FechaAlta: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            '(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](19|20)[0-9]{2}'
+          )
+        ]
+      ],
       Activo: [false]
     });
 
@@ -138,53 +158,58 @@ export class ArticuloComponent implements OnInit {
 
   // grabar tanto altas como modificaciones
   Grabar() {
-    this.carga = true;
-    //hacemos una copia de los datos del formulario, para modificar la fecha y luego enviarlo al servidor
-    const itemCopy = { ...this.FormRegistro.value };
+    this.submited = true;
+    if (this.FormRegistro.invalid) {
+      return;
+    } 
+    else {
+      this.carga = true;
+      //hacemos una copia de los datos del formulario, para modificar la fecha y luego enviarlo al servidor
+      const itemCopy = { ...this.FormRegistro.value };
 
-    //convertir fecha de string dd/MM/yyyy a ISO para que la entienda webapi
-    let arrFecha = itemCopy.FechaAlta.substr(0, 10).split('/');
-    if (arrFecha.length == 3)
-      itemCopy.FechaAlta = new Date(
-        arrFecha[2],
-        arrFecha[1] - 1,
-        arrFecha[0]
-      ).toISOString();
+      //convertir fecha de string dd/MM/yyyy a ISO para que la entienda webapi
+      let arrFecha = itemCopy.FechaAlta.substr(0, 10).split('/');
+      if (arrFecha.length == 3)
+        itemCopy.FechaAlta = new Date(
+          arrFecha[2],
+          arrFecha[1] - 1,
+          arrFecha[0]
+        ).toISOString();
 
-    if (this.AccionABMC === 'M') {
-      // let articulo: Articulo = this.FormRegistro.value
-      this.articulosS.put(itemCopy).subscribe(
-        (res: Articulo) => {
-          this.Buscar();
-        },
-        (er: any) => {
-          alert('erro de datos');
-          this.carga = false;
-          this.Volver();
-        },
-        () => {
-          alert('Articulo Modificado');
-          this.carga = false;
-          this.Volver();
-        }
-      );
-    } else {
-      itemCopy.IdArticulo = 0;
-      this.articulosS.post(itemCopy).subscribe(
-        (res: Articulo) => {
-          this.Buscar();
-        },
-        (er: any) => {
-          alert('erro de datos');
-          this.carga = false;
-          this.Volver();
-        },
-        () => {
-          alert('Articulo Guardado');
-          this.carga = false;
-          this.Volver();
-        }
-      );
+      if (this.AccionABMC === 'M') {
+        this.articulosS.put(itemCopy).subscribe(
+          (res: Articulo) => {
+            this.Buscar();
+          },
+          (er: any) => {
+            alert('erro de datos');
+            this.carga = false;
+            this.Volver();
+          },
+          () => {
+            alert('Articulo Modificado');
+            this.carga = false;
+            this.Volver();
+          }
+        );
+      } else {
+        itemCopy.IdArticulo = 0;
+        this.articulosS.post(itemCopy).subscribe(
+          (res: Articulo) => {
+            this.Buscar();
+          },
+          (er: any) => {
+            alert('erro de datos');
+            this.carga = false;
+            this.Volver();
+          },
+          () => {
+            alert('Articulo Guardado');
+            this.carga = false;
+            this.Volver();
+          }
+        );
+      }
     }
   }
 
@@ -199,6 +224,7 @@ export class ArticuloComponent implements OnInit {
 
   // Volver desde Agregar/Modificar
   Volver() {
+    this.submited = false;
     this.AccionABMC = 'L';
     this.limpiarRegistro();
   }

@@ -1,4 +1,4 @@
-<div>
+<div class="position-relative">
   <h3 class="d-inline-flex">{{Titulo}} <small>{{TituloAccionABMC[AccionABMC]}}</small></h3>
 
 
@@ -121,7 +121,14 @@
                 Nombre <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input type="text" class="form-control" formControlName="Nombre" >
+        <input type="text" class="form-control text-uppercase" formControlName="Nombre" >
+
+        <span class="text-danger" *ngIf="(FormRegistro.controls.Nombre.touched || submited)&& FormRegistro.controls.Nombre.errors?.required">Complete el campo</span>
+        <span class="text-danger" *ngIf="
+                       FormRegistro.controls.Nombre.errors?.minlength || FormRegistro.controls.Nombre.errors?.maxlength ">
+                    Dato texto, 4 a 55 caracteres.
+                </span>
+
       </div>
     </div>
 
@@ -132,6 +139,11 @@
             </label>
       <div class="col-sm-6">
         <input type="text" name="Precio"  class="form-control" formControlName="Precio"/>
+
+        <span class="text-danger" *ngIf="(FormRegistro.controls.Precio.touched || submited)&&FormRegistro.controls.Precio.errors?.required">Complete el campo</span>
+        <span class="text-danger" *ngIf="FormRegistro.controls.Precio.errors?.pattern">
+                    Ingrese un precio valido.
+        </span>
       </div>
     </div>
 
@@ -144,6 +156,11 @@
       <div class="col-sm-6">
         <input type="text" name="Stock" class="form-control" formControlName="Stock">
 
+        <span class="text-danger" *ngIf="(FormRegistro.controls.Stock.touched || submited)&&FormRegistro.controls.Stock.errors?.required">Complete el campo</span>
+        <span class="text-danger" *ngIf="FormRegistro.controls.Stock.errors?.pattern">
+                    Dato numérico, 1 a 7 dígitos.
+        </span>
+
       </div>
     </div>
 
@@ -155,6 +172,7 @@
       <div class="col-sm-6">
         <input type="text" name="CodigoDeBarra" class="form-control" formControlName="CodigoDeBarra">
 
+        <span class="text-danger" *ngIf="(FormRegistro.controls.CodigoDeBarra.touched || submited)&&FormRegistro.controls.CodigoDeBarra.errors?.required">Complete el campo</span>
       </div>
     </div>
 
@@ -165,10 +183,12 @@
             </label>
       <div class="col-sm-6">
         <select name="IdArticuloFamilia" class="form-control" formControlName="IdArticuloFamilia">
-                    <option *ngFor="let opt of Familias" [value]="opt.IdArticuloFamilia" >
-                        {{ opt.Nombre }}
-                    </option>
-                </select>
+          <option *ngFor="let opt of Familias" [value]="opt.IdArticuloFamilia" >
+              {{ opt.Nombre }}
+          </option>
+        </select>
+
+        <span class="text-danger" *ngIf="(FormRegistro.controls.IdArticuloFamilia.touched || submited)&&FormRegistro.controls.IdArticuloFamilia.errors?.required">Complete el campo</span>
       </div>
     </div>
 
@@ -179,6 +199,12 @@
             </label>
       <div class="col-sm-6">
         <input class="form-control" name="FechaAlta" formControlName="FechaAlta">
+
+        <span class="text-danger" *ngIf="(FormRegistro.controls.FechaAlta.touched || submited)&&FormRegistro.controls.FechaAlta.errors?.required">Complete el campo</span>
+        <span class="text-danger" *ngIf="FormRegistro.controls.FechaAlta.errors?.pattern">
+                    Dato fecha, formato dd/mm/aaaa.
+        </span>
+
       </div>
     </div>
 
@@ -187,10 +213,12 @@
       <label class="col-form-label col-sm-2 offset-sm-2" for="Activo">Activo</label>
       <div class="col-sm-6">
         <select name="Activo"  class="form-control" formControlName="Activo">
-                    <option *ngFor="let opt of OpcionesActivo" [value]="opt.Id" >
-                        {{ opt.Nombre}}
-                    </option>
-                </select>
+          <option *ngFor="let opt of OpcionesActivo" [value]="opt.Id" >
+              {{ opt.Nombre}}
+          </option>
+        </select>
+
+        <span class="text-danger" *ngIf="FormRegistro.controls.Activo.errors?.required">Complete el campo</span>
       </div>
     </div>
   </fieldset>
@@ -208,8 +236,9 @@
 
 
   <!--texto: Revisar los datos ingresados...-->
-  <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="false">
+  <div id="divMsjFormRegistro" class="row alert alert-danger" *ngIf="submited && FormRegistro.invalid">
     <i class="fas fa-exclamation-sign"></i>{{Mensajes['RD']}}
   </div>
+
 
 </form>
