@@ -104,6 +104,9 @@ export class ArticuloComponent implements OnInit {
   // }
 
   Agregar() {
+    this.submited = false;
+    this.FormRegistro.markAsUntouched();
+
     this.AccionABMC = 'A';
     this.FormRegistro.reset({ Activo: true, IdArticulo: 0 });
   }
@@ -148,6 +151,9 @@ export class ArticuloComponent implements OnInit {
 
   // comienza la modificacion, luego la confirma con el metodo Grabar
   Modificar(Dto) {
+    this.submited = false;
+    this.FormRegistro.markAsUntouched();
+
     if (!Dto.Activo) {
       alert('No puede modificarse un registro Inactivo.');
       return;
