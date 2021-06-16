@@ -15,6 +15,7 @@ import { ArticuloComponent } from './components/articulo/articulo.component';
 import { MockArticuloService } from './services/mock-articulo.service';
 import { ArticulosService } from './services/articulos.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -32,7 +33,8 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     ArticuloFamiliaComponent,
     MenuComponent,
     NotFountComponent,
-    ArticuloComponent
+    ArticuloComponent,
+    ModalDialogComponent
   ],
   bootstrap: [AppComponent],
   providers: [ArticuloFamiliaService, MockArticuloService, ArticulosService]

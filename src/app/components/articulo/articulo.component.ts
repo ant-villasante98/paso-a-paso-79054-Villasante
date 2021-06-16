@@ -1,6 +1,8 @@
+import { CurrencyPipe } from '@angular/common';
 import { Attribute } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
+import { pipe } from 'rxjs';
 import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
 import { ArticulosService } from '../../services/articulos.service';
@@ -123,6 +125,9 @@ export class ArticuloComponent implements OnInit {
       .subscribe((res: any) => {
         this.Items = res.Items;
         this.RegistrosTotal = res.CantidadDeRgistros;
+        this.carga = false;
+      },()=>{}
+      ,()=>{
         this.carga = false;
       });
   }
