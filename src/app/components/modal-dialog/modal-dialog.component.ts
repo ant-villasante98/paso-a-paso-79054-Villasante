@@ -12,7 +12,7 @@ export class ModalDialogComponent implements OnInit {
   textoBotonTrue = '';
   textoBotonFalse = '';
   bloquearPantalla = false;
-  classHeader = 'bg-success';
+  classHeader = '.bg-danger.bg-gradient';
   faIcon = 'far fa-check-circle';
   mensaje = '';
 
