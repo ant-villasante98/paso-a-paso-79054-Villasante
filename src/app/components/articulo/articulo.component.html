@@ -33,15 +33,18 @@
     </div>
   </div>
   <!-- Botones -->
-  <div class="row justify-content-center">
+  <div class="d-flex justify-content-evenly">
+    <div class="col col-auto">
     <button type="button" class="btn btn-primary" (click)="Pagina=1;Buscar();">
             <i class="fas fa-search"> </i> Buscar
         </button>
-    &nbsp;
+        </div>
+    <div class="col col-auto">
     <button type="button" class="btn btn-primary" (click)="Agregar()" >
             <i class="fas fa-plus"> </i> 
             Agregar
         </button>
+        </div>
   </div>
 </form>
 
@@ -140,7 +143,8 @@
                 Precio <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input type="text" name="Precio"  class="form-control" formControlName="Precio"/>
+        <input type="text" name="Precio"  class="form-control" placeholder="Categoria de Articulo" formControlName="Precio" [ngClass]="{'is-invalid': (FormRegistro.controls.Precio.touched || submited)  
+            && FormRegistro.controls.Precio.errors}"/>
 
         <span class="text-danger" *ngIf="(FormRegistro.controls.Precio.touched || submited)&&FormRegistro.controls.Precio.errors?.required">Complete el campo</span>
         <span class="text-danger" *ngIf="FormRegistro.controls.Precio.errors?.pattern">
@@ -156,7 +160,8 @@
                 Stock <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input type="text" name="Stock" class="form-control" formControlName="Stock">
+        <input type="text" name="Stock" class="form-control" formControlName="Stock" [ngClass]="{'is-invalid': (FormRegistro.controls.Stock.touched || submited)  
+            && FormRegistro.controls.Stock.errors}">
 
         <span class="text-danger" *ngIf="(FormRegistro.controls.Stock.touched || submited)&&FormRegistro.controls.Stock.errors?.required">Complete el campo</span>
         <span class="text-danger" *ngIf="FormRegistro.controls.Stock.errors?.pattern">
@@ -172,7 +177,8 @@
                 Codigo De Barra <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input type="text" name="CodigoDeBarra" class="form-control" formControlName="CodigoDeBarra">
+        <input type="text" name="CodigoDeBarra" class="form-control" formControlName="CodigoDeBarra" [ngClass]="{'is-invalid': (FormRegistro.controls.CodigoDeBarra.touched || submited)  
+            && FormRegistro.controls.CodigoDeBarra.errors}"/>
 
         <span class="text-danger" *ngIf="(FormRegistro.controls.CodigoDeBarra.touched || submited)&&FormRegistro.controls.CodigoDeBarra.errors?.required">Complete el campo</span>
       </div>
@@ -180,11 +186,12 @@
 
     <!--campo idarticulofamilia-->
     <div class="form-group row">
-      <label class="col-form-label col-sm-2 offset-sm-2" for="IdArticuloFamilia">
+      <label class="col-form-label col-sm-2 offset-sm-2" for="IdArticuloFamilia" >
                 Familia <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <select name="IdArticuloFamilia" class="form-control" formControlName="IdArticuloFamilia">
+        <select name="IdArticuloFamilia" class="form-control" formControlName="IdArticuloFamilia" [ngClass]="{'is-invalid': (FormRegistro.controls.IdArticuloFamilia.touched || submited)  
+            && FormRegistro.controls.IdArticuloFamilia.errors}">
           <option *ngFor="let opt of Familias" [value]="opt.IdArticuloFamilia" >
               {{ opt.Nombre }}
           </option>
@@ -200,7 +207,8 @@
                 Fecha de alta <span class="text-danger">*</span>
             </label>
       <div class="col-sm-6">
-        <input class="form-control" name="FechaAlta" formControlName="FechaAlta">
+        <input class="form-control" name="FechaAlta" formControlName="FechaAlta" [ngClass]="{'is-invalid': (FormRegistro.controls.FechaAlta.touched || submited)  
+            && FormRegistro.controls.FechaAlta.errors}">
 
         <span class="text-danger" *ngIf="(FormRegistro.controls.FechaAlta.touched || submited)&&FormRegistro.controls.FechaAlta.errors?.required">Complete el campo</span>
         <span class="text-danger" *ngIf="FormRegistro.controls.FechaAlta.errors?.pattern">
@@ -214,7 +222,8 @@
     <div class="form-group row">
       <label class="col-form-label col-sm-2 offset-sm-2" for="Activo">Activo</label>
       <div class="col-sm-6">
-        <select name="Activo"  class="form-control" formControlName="Activo">
+        <select name="Activo"  class="form-control" formControlName="Activo" [ngClass]="{'is-invalid': (FormRegistro.controls.Activo.touched || submited)  
+            && FormRegistro.controls.Activo.errors}">
           <option *ngFor="let opt of OpcionesActivo" [value]="opt.Id" >
               {{ opt.Nombre}}
           </option>
@@ -226,14 +235,17 @@
   </fieldset>
 
   <!-- Botones Grabar, Cancelar/Volver' -->
-  <div class="row justify-content-center">
+  <div class="row">
+    <div class="col-md-auto offset-md-4">
     <button type="button" class="btn btn-primary" (click)="Grabar()" *ngIf="(AccionABMC=='A' || AccionABMC=='M') ">
             <i class="fas fa-check"></i> Grabar
         </button>
-    &nbsp;
+        </div>
+        <div class="col-md-auto offset-md-3">
     <button type="button" class="btn btn-warning" (click)="Volver()">
             <i class="fas fa-undo"></i> {{AccionABMC == 'A'  || AccionABMC == 'M' ? 'Cancelar' : 'Volver'}}
         </button>
+        </div>
   </div>
 
 

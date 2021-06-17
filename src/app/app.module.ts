@@ -14,9 +14,14 @@ import { NotFountComponent } from './components/not-fount/not-fount.component';
 import { ArticuloComponent } from './components/articulo/articulo.component';
 import { MockArticuloService } from './services/mock-articulo.service';
 import { ArticulosService } from './services/articulos.service';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbPaginationModule,
+  NgbModalModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
+import { ModalDialogService } from './services/modal-dialog.service';
 @NgModule({
+  entryComponents: [ModalDialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -24,7 +29,8 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
     AppRouterModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbPaginationModule
+    NgbPaginationModule,
+    NgbModalModule
   ],
   declarations: [
     AppComponent,
@@ -37,6 +43,11 @@ import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.com
     ModalDialogComponent
   ],
   bootstrap: [AppComponent],
-  providers: [ArticuloFamiliaService, MockArticuloService, ArticulosService]
+  providers: [
+    ArticuloFamiliaService,
+    MockArticuloService,
+    ArticulosService,
+    ModalDialogService
+  ]
 })
 export class AppModule {}

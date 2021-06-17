@@ -7,6 +7,7 @@ import { ArticuloFamilia } from '../../models/ArticuloFamilia';
 import { Articulo } from '../../models/mockArticulo';
 import { ArticulosService } from '../../services/articulos.service';
 import { MockArticuloService } from '../../services/mock-articulo.service';
+import { ModalDialogService } from '../../services/modal-dialog.service';
 import { ArticuloFamiliaService } from '../../services/s-articulo-familia.service';
 
 @Component({
@@ -55,7 +56,8 @@ export class ArticuloComponent implements OnInit {
     // private articulosService: MockArticuloService,
     private articulosFamiliasService: ArticuloFamiliaService,
     private articulosS: ArticulosService,
-    private form: FormBuilder
+    private form: FormBuilder,
+    private modalDialogService: ModalDialogService
   ) {}
 
   ngOnInit() {
@@ -69,7 +71,13 @@ export class ArticuloComponent implements OnInit {
         '',
         [Validators.required, Validators.minLength(4), Validators.maxLength(55)]
       ],
-      Precio: [null, [Validators.required, Validators.pattern('[0-9]{1,5}([-.]{0,1})([0-9]{0,2})')]],
+      Precio: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern('[0-9]{1,5}([-.]{0,1})([0-9]{0,2})')
+        ]
+      ],
 
       Stock: [null, [Validators.required, Validators.pattern('[0-9]{1,10}')]],
 
@@ -122,14 +130,17 @@ export class ArticuloComponent implements OnInit {
         this.formBusqueda.controls.Activo.value,
         this.Pagina
       )
-      .subscribe((res: any) => {
-        this.Items = res.Items;
-        this.RegistrosTotal = res.CantidadDeRgistros;
-        this.carga = false;
-      },()=>{}
-      ,()=>{
-        this.carga = false;
-      });
+      .subscribe(
+        (res: any) => {
+          this.Items = res.Items;
+          this.RegistrosTotal = res.CantidadDeRgistros;
+          this.carga = false;
+        },
+        () => {},
+        () => {
+          this.carga = false;
+        }
+      );
   }
 
   // Obtengo un registro especifico según el Id
@@ -160,7 +171,9 @@ export class ArticuloComponent implements OnInit {
     this.FormRegistro.markAsUntouched();
 
     if (!Dto.Activo) {
-      alert('No puede modificarse un registro Inactivo.');
+      this.modalDialogService.Alert(
+        'No puede modificarse un registro Inactivo.'
+      );
       return;
     }
     this.carga = true;
@@ -172,8 +185,7 @@ export class ArticuloComponent implements OnInit {
     this.submited = true;
     if (this.FormRegistro.invalid) {
       return;
-    } 
-    else {
+    } else {
       this.carga = true;
       //hacemos una copia de los datos del formulario, para modificar la fecha y luego enviarlo al servidor
       const itemCopy = { ...this.FormRegistro.value };
