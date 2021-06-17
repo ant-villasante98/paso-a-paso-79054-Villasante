@@ -46,8 +46,7 @@ import { ModalDialogService } from './services/modal-dialog.service';
   providers: [
     ArticuloFamiliaService,
     MockArticuloService,
-    ArticulosService,
-    ModalDialogService
+    ArticulosService
   ]
 })
 export class AppModule {}
