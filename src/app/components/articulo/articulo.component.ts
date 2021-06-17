@@ -123,6 +123,7 @@ export class ArticuloComponent implements OnInit {
 
   // Buscar segun los filtros, establecidos en FormRegistro
   Buscar() {
+    this.modalDialogService.BloquearPantalla();
     this.carga = true;
     this.articulosS
       .get(
@@ -138,6 +139,7 @@ export class ArticuloComponent implements OnInit {
         },
         () => {},
         () => {
+          this.modalDialogService.DesbloquearPantalla();
           this.carga = false;
         }
       );
@@ -237,12 +239,16 @@ export class ArticuloComponent implements OnInit {
   }
 
   ActivarDesactivar(Dto) {
-    var resp = confirm(
+    this.modalDialogService.Confirm(
       'Esta seguro de ' +
         (Dto.Activo ? 'desactivar' : 'activar') +
-        ' este registro?'
+        ' este registro?',
+      undefined,
+      undefined,
+      undefined,
+      () =>this.Buscar(),
+      null
     );
-    if (resp === true) alert('registro activado/desactivado!');
   }
 
   // Volver desde Agregar/Modificar
