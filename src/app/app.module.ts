@@ -19,7 +19,7 @@ import {
   NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDialogComponent } from './components/modal-dialog/modal-dialog.component';
-import { ModalDialogService } from './services/modal-dialog.service';
+import { NgxCurrencyModule } from 'ngx-currency';
 @NgModule({
   entryComponents: [ModalDialogComponent],
   imports: [
@@ -30,7 +30,8 @@ import { ModalDialogService } from './services/modal-dialog.service';
     ReactiveFormsModule,
     FormsModule,
     NgbPaginationModule,
-    NgbModalModule
+    NgbModalModule,
+    NgxCurrencyModule
   ],
   declarations: [
     AppComponent,
